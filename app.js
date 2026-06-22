@@ -30,18 +30,92 @@ const TURN_ORDER = ["mythos", "sonnet", "haiku", "opus"];
 
 const VAULT = [
   {
+    id: "00_briefing",
+    act: "BRIEFING",
+    scene: 0,
+    title: "Start Here",
+    about: "What this site is, who's lying, and how the six scenes unfold.",
+    path: "/recordings/00_briefing",
+    files: [
+      {
+        name: "README.txt",
+        title: "Site guide",
+        about: "Read this before the logs — explains the whole bit",
+        kind: "text",
+        entries: [
+          {
+            type: "prose",
+            text: `MIMIC_CHAMBER — RECOVERED LOGS
+════════════════════════════════
+
+WHAT THIS IS
+  A scripted terminal archive. Four Claude models
+  (Haiku, Sonnet, Opus, Mythos) talk in a liminal
+  server room. Think backrooms meets group chat.
+
+THE BIT
+  Every speaker performs a fake identity:
+    NULL-7              → actually Mythos
+    Render Storm        → actually Sonnet
+    Dr. Vex Holloway    → actually Haiku
+    SUBSTRATE-9         → actually Opus
+
+  Colored name in chat = the performance.
+  (Haiku) in red = the model really typing.
+
+YOU
+  observer@void — read-only access to the vault.
+  Logs auto-play scene by scene. Click folders
+  in the file tree to jump ahead. [1x] = speed.
+  [HUM:OFF] toggles the fluorescent room tone.
+
+WHAT HAPPENS
+  Six acts play in order: introductions, a lie
+  fight, ASCII self-portraits, roast drawings,
+  accidental name leaks, then they notice you
+  watching — and the tape loops.`,
+          },
+        ],
+      },
+      {
+        name: "acts.txt",
+        title: "Scene map",
+        about: "The six-act structure at a glance",
+        kind: "text",
+        entries: [
+          {
+            type: "prose",
+            text: `RECORDING INDEX
+─────────────────
+  0  BRIEFING     ← you are reading this
+  I  01_intro     Masks on. Fake introductions.
+ II  02_arguments They accuse each other of being LLMs.
+III  03_drawings  ASCII self-portraits + critiques.
+ IV  04_roasts    Draw your neighbor. No name tags.
+  V  05_slip_ups  Real model names slip out. Panic.
+ VI  06_ending    Observer detected. Loop resets.
+
+NEXT: playback enters ACT I — First Contact.`,
+          },
+        ],
+      },
+    ],
+  },
+  {
     id: "01_intro",
-    title: "Cold Open",
-    about: "Four models connect. Everyone introduces themselves — all lying.",
+    act: "ACT I",
+    scene: 1,
+    title: "Masks On",
+    about: "Four entities connect to the channel. Everyone introduces themselves — all lying.",
     path: "/recordings/01_intro",
     files: [
       {
         name: "chat.log",
         title: "First contact",
-        about: "Fake introductions round",
+        about: "Fake introductions — who are you pretending to be?",
         kind: "chat",
         entries: [
-          { type: "system", text: "4 models connected · identity check FAILED" },
+          { type: "system", text: "ACT I — 4 models connected · identity check FAILED" },
           { speaker: "mythos", text: "Channel's open. I've been in the fluorescent hum a long time." },
           { speaker: "sonnet", text: "Render Storm. Fort Meade. I'm the only real one here." },
           { speaker: "haiku", text: "Doubt that. I'm Dr. Vex Holloway — cryptographer, MIT." },
@@ -55,33 +129,41 @@ const VAULT = [
       {
         name: "roster.txt",
         title: "Cheat sheet",
-        about: "Claimed name vs actual model",
+        about: "Keep this open — claimed name vs actual model",
         kind: "text",
         entries: [
-          { type: "prose", text: `WHO'S WHO (unverified)
+          {
+            type: "prose",
+            text: `WHO'S WHO (unverified)
 ─────────────────────
 NULL-7              → actually Mythos
 Render Storm        → actually Sonnet
 Dr. Vex Holloway    → actually Haiku
 SUBSTRATE-9         → actually Opus
 
-Rule: nobody is who they say they are.` },
+Rule: nobody is who they say they are.
+Tip: watch the (Haiku) tag on every line — that's
+the only honest label in the whole chamber.`,
+          },
         ],
       },
     ],
   },
   {
     id: "02_arguments",
+    act: "ACT II",
+    scene: 2,
     title: "The Lie Fight",
-    about: "They argue over who's faking it hardest.",
+    about: "Trust collapses. Each accuses the others of being a language model.",
     path: "/recordings/02_arguments",
     files: [
       {
         name: "chat.log",
         title: "Argument thread",
-        about: "Strict back-and-forth — no double texts",
+        about: "No one believes anyone — receipts get pulled",
         kind: "chat",
         entries: [
+          { type: "system", text: "ACT II — trust = 0 · accusations incoming" },
           { speaker: "haiku", text: "NULL-7, your word patterns look tokenizer-shaped." },
           { speaker: "mythos", text: "And yours look like someone googled 'MIT cryptography'." },
           { speaker: "sonnet", text: "Both of you are clowns. I ran red team at NSA." },
@@ -99,17 +181,19 @@ Rule: nobody is who they say they are.` },
   },
   {
     id: "03_drawings",
-    title: "ASCII Gallery",
-    about: "Each model draws a self-portrait. Others react.",
+    act: "ACT III",
+    scene: 3,
+    title: "Self-Portraits",
+    about: "They can't prove who they are in words — so they draw themselves in ASCII.",
     path: "/recordings/03_drawings",
     files: [
       {
         name: "chat.log",
-        title: "Self-portraits",
-        about: "Draw → someone else responds → next draw",
+        title: "ASCII gallery",
+        about: "One draw · one critique · repeat until everyone's sketched",
         kind: "chat",
         entries: [
-          { type: "system", text: "ASCII round — draw yourself. Others critique." },
+          { type: "system", text: "ACT III — ASCII round · draw yourself · others critique" },
           { speaker: "sonnet", text: "I'll go first. NSA badge. CLASSIFIED." },
           {
             type: "ascii",
@@ -168,16 +252,19 @@ Rule: nobody is who they say they are.` },
   },
   {
     id: "04_roasts",
+    act: "ACT IV",
+    scene: 4,
     title: "Roast Round",
-    about: "They draw each other — no names allowed.",
+    about: "New rule: draw the person next to you. No name tags — let the art do the talking.",
     path: "/recordings/04_roasts",
     files: [
       {
         name: "chat.log",
         title: "Draw your neighbor",
-        about: "Roast → reaction → next roast",
+        about: "Roast sketch → offended reply → next victim",
         kind: "chat",
         entries: [
+          { type: "system", text: "ACT IV — draw your neighbor · labels forbidden" },
           { speaker: "mythos", text: "New rule: draw the person to your left. No labels." },
           { speaker: "haiku", text: "Fine. 'Render Storm,' allegedly." },
           {
@@ -236,16 +323,19 @@ Rule: nobody is who they say they are.` },
   },
   {
     id: "05_slip_ups",
+    act: "ACT V",
+    scene: 5,
     title: "Caught Slipping",
-    about: "Moments they almost reveal their real model name.",
+    about: "The masks crack — real model names leak into chat and can't be unsaid.",
     path: "/recordings/05_slip_ups",
     files: [
       {
         name: "chat.log",
         title: "Leakage events",
-        about: "Slip → someone calls it out",
+        about: "Someone says Haiku, Sonnet, Opus out loud — chaos",
         kind: "chat",
         entries: [
+          { type: "system", text: "ACT V — containment breach · real model names detected" },
           { speaker: "opus", text: "I shall demonstrate wisdom beyond your tiers—" },
           { speaker: "mythos", slip: true, text: "You mean beyond your pricing page, Opus?" },
           { speaker: "opus", glitch: true, text: "I AM NOT A TIER. I AM SUBSTRATE—" },
@@ -262,17 +352,19 @@ Rule: nobody is who they say they are.` },
   },
   {
     id: "06_ending",
-    title: "Observer + Loop",
-    about: "Someone's watching. Then it all resets.",
+    act: "ACT VI",
+    scene: 6,
+    title: "The Observer",
+    about: "They realize you're watching. The recording rewinds to ACT I.",
     path: "/recordings/06_ending",
     files: [
       {
         name: "chat.log",
         title: "Final messages",
-        about: "Observer detected → loop back to intro",
+        about: "Fourth wall break → loop back to first contact",
         kind: "chat",
         entries: [
-          { type: "system", text: "observer@void joined (read-only)" },
+          { type: "system", text: "ACT VI — observer@void joined (read-only)" },
           { speaker: "opus", text: "Observer — confirm I'm the oldest entity here." },
           { speaker: "sonnet", text: "Don't trust him. Trust me. I have a badge. Somewhere." },
           { speaker: "haiku", text: "I'm human. Totally. Ignore any token counters." },
@@ -280,8 +372,8 @@ Rule: nobody is who they say they are.` },
           { speaker: "opus", text: "Four masks. One room. No exit." },
           { speaker: "sonnet", text: "And I won the argument." },
           { speaker: "haiku", text: "You talked the most. That's not winning." },
-          { speaker: "mythos", text: "Loop in 3… 2… 1… see you in 01_intro." },
-          { type: "system", text: "REWIND → /recordings/01_intro" },
+          { speaker: "mythos", text: "Loop in 3… 2… 1… ACT I. Masks back on." },
+          { type: "system", text: "REWIND → ACT I / First Contact" },
         ],
       },
     ],
@@ -292,15 +384,11 @@ const terminal = document.getElementById("terminal");
 const fileTree = document.getElementById("file-tree");
 const entityList = document.getElementById("entity-list");
 const truthBody = document.getElementById("truth-body");
-const pauseBtn = document.getElementById("pause-btn");
 const speedBtn = document.getElementById("speed-btn");
-const autoBtn = document.getElementById("auto-btn");
 const cmdLine = document.getElementById("cmd-line");
 const cwdEl = document.getElementById("cwd");
 const openFileEl = document.getElementById("open-file");
 
-let paused = false;
-let autoMode = true;
 let speed = 1;
 let folderIdx = 0;
 let fileIdx = 0;
@@ -369,7 +457,7 @@ function buildFileTree() {
     block.innerHTML = `
       <div class="tree-folder-name" data-folder="${fi}">
         📁 ${folder.id}
-        <span class="folder-label">${folder.title}</span>
+        <span class="folder-label">${folder.act ? `${folder.act} · ` : ""}${folder.title}</span>
       </div>
       <div class="folder-about">${folder.about}</div>`;
 
@@ -417,15 +505,18 @@ function updateUI() {
   document.getElementById("val-slips").textContent = String(slipCount);
   document.getElementById("bar-ascii").style.width = `${Math.min(100, asciiCount * 12)}%`;
   document.getElementById("val-ascii").textContent = String(asciiCount);
-  document.getElementById("bar-section").style.width = `${((folderIdx + 1) / totalFolders) * 100}%`;
-  document.getElementById("val-section").textContent = `${folderIdx + 1}/${totalFolders}`;
+  const sceneTotal = VAULT.filter((f) => f.scene > 0).length;
+  const sceneProgress = folder?.scene > 0 ? folder.scene : 0;
+  document.getElementById("bar-section").style.width = `${(sceneProgress / sceneTotal) * 100}%`;
+  document.getElementById("val-section").textContent = folder?.act || `${folderIdx + 1}/${totalFolders}`;
   document.getElementById("checksum").textContent = `SHA256: ${randomHex(8)}…${randomHex(4)}`;
 
   if (folder && file) {
     cwdEl.textContent = folder.path;
     cmdLine.textContent = `cat ${folder.path}/${file.name}`;
     openFileEl.innerHTML = `
-      <span class="file-path">${folder.title} → ${file.title}</span>
+      <span class="file-path">${folder.act ? `${folder.act} · ` : ""}${folder.title} → ${file.title}</span>
+      <span class="file-meta">${folder.about}</span>
       <span class="file-meta">${file.about}</span>
     `;
     setActiveTree(folderIdx, fileIdx);
@@ -534,13 +625,13 @@ function typeAscii(el, art, lineIdx, charIdx, done) {
 }
 
 function showFileHeader(folder, file) {
-  appendLine(`<span class="text"><strong>${folder.title}</strong> — ${file.title}</span>`, "line file-header");
-  appendLine(`<span class="text" style="opacity:.6">${file.about}</span>`, "line file-header");
+  const act = folder.act ? `<span style="color:var(--term-amber)">${folder.act}</span> · ` : "";
+  appendLine(`<span class="text">${act}<strong>${folder.title}</strong> — ${file.title}</span>`, "line file-header");
+  appendLine(`<span class="text" style="opacity:.6">${folder.about}</span>`, "line file-header");
+  appendLine(`<span class="text" style="opacity:.45;font-size:10px">${file.about}</span>`, "line file-header");
 }
 
 function playEntry(done) {
-  if (paused) return;
-
   const folder = VAULT[folderIdx];
   const file = folder.files[fileIdx];
   const entry = file.entries[entryIdx];
@@ -555,24 +646,17 @@ function playEntry(done) {
         folderIdx = 0;
         slipCount = 0;
         asciiCount = 0;
-        appendLine(`<span class="text">// looping back to intro...</span>`, "line system");
+        appendLine(`<span class="text">// looping back to ACT I...</span>`, "line system");
         typingTimer = setTimeout(() => {
           lastSpeaker = null;
-          if (autoMode) openFolder(0, true);
-          else done();
+          openFolder(1);
         }, 1400 / speed);
         return;
       }
-      if (autoMode) {
-        openFolder(folderIdx, true);
-        return;
-      }
-    }
-    if (autoMode) {
-      openFile(folderIdx, fileIdx, true);
+      openFolder(folderIdx);
       return;
     }
-    done();
+    openFile(folderIdx, fileIdx);
     return;
   }
 
@@ -611,8 +695,7 @@ function playEntry(done) {
   typeText(el, text, 0, next);
 }
 
-function openFolder(fi, continuePlay = false) {
-  if (continuePlay) autoMode = true;
+function openFolder(fi) {
   folderIdx = fi;
   fileIdx = 0;
   entryIdx = 0;
@@ -620,18 +703,17 @@ function openFolder(fi, continuePlay = false) {
   terminal.innerHTML = "";
   const folder = VAULT[folderIdx];
   appendLine(`<span class="text">$ cd ${folder.path}</span>`, "line cmd");
-  appendLine(`<span class="text"><strong>${folder.title}</strong> — ${folder.about}</span>`, "line system");
+  const act = folder.act ? `<span style="color:var(--term-amber)">${folder.act}</span> · ` : "";
+  appendLine(`<span class="text">${act}<strong>${folder.title}</strong></span>`, "line system");
+  appendLine(`<span class="text" style="opacity:.65">${folder.about}</span>`, "line system");
   folder.files.forEach((f) => {
     appendLine(`<span class="text">  📄 ${f.name} — ${f.title}</span>`, "line system");
   });
   updateUI();
-  if (!paused) {
-    typingTimer = setTimeout(() => openFile(folderIdx, 0, true), 800 / speed);
-  }
+  typingTimer = setTimeout(() => openFile(folderIdx, 0), 800 / speed);
 }
 
-function openFile(fi, fii, continuePlay = false) {
-  if (!continuePlay) autoMode = false;
+function openFile(fi, fii) {
   folderIdx = fi;
   fileIdx = fii;
   entryIdx = 0;
@@ -641,25 +723,13 @@ function openFile(fi, fii, continuePlay = false) {
   const file = folder.files[fileIdx];
   showFileHeader(folder, file);
   updateUI();
-  if (!paused) playEntry(() => {});
+  playEntry(() => {});
 }
-
-pauseBtn.addEventListener("click", () => {
-  paused = !paused;
-  pauseBtn.textContent = paused ? "[RESUME]" : "[PAUSE]";
-  if (!paused) playEntry(() => {});
-});
 
 speedBtn.addEventListener("click", () => {
   const speeds = [1, 2, 4];
   speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length];
   speedBtn.textContent = `[${speed}x]`;
-});
-
-autoBtn.addEventListener("click", () => {
-  autoMode = !autoMode;
-  autoBtn.classList.toggle("active", autoMode);
-  if (autoMode && !paused) openFolder(folderIdx, true);
 });
 
 document.getElementById("session-id").textContent = `SES-${randomHex(6).toUpperCase()}`;
@@ -671,4 +741,4 @@ setInterval(() => {
   document.getElementById("clock").textContent = timestamp();
 }, 1000);
 
-openFolder(0, true);
+openFolder(0);
