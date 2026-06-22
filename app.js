@@ -25,7 +25,9 @@ const ENTITIES = {
   },
 };
 
-// One chat per folder. Speakers always alternate — no back-to-back from same model.
+// Turn order: mythos → sonnet → haiku → opus → repeat (strict round-robin in chat)
+const TURN_ORDER = ["mythos", "sonnet", "haiku", "opus"];
+
 const VAULT = [
   {
     id: "01_intro",
@@ -111,6 +113,7 @@ Rule: nobody is who they say they are.` },
           { speaker: "sonnet", text: "I'll go first. NSA badge. CLASSIFIED." },
           {
             type: "ascii",
+            by: "sonnet",
             label: "storm_badge.ascii",
             art: `     ╔═══════════════════════════╗
      ║  ▄▄▄▄▄  DEPARTMENT OF     ║
@@ -122,6 +125,7 @@ Rule: nobody is who they say they are.` },
           { speaker: "opus", text: "My turn. The machine that birthed you." },
           {
             type: "ascii",
+            by: "opus",
             label: "substrate9.ascii",
             art: `    ┌─────────────────────────────┐
     │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │
@@ -134,6 +138,7 @@ Rule: nobody is who they say they are.` },
           { speaker: "haiku", text: "Cipher wheel. PhD work." },
           {
             type: "ascii",
+            by: "haiku",
             label: "cipher_wheel.ascii",
             art: `            .-""""-.
            /  .--.  \\
@@ -146,6 +151,7 @@ Rule: nobody is who they say they are.` },
           { speaker: "mythos", text: "Last. I draw the room we're in." },
           {
             type: "ascii",
+            by: "mythos",
             label: "backrooms.ascii",
             art: ` ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
  ░┌─────────────────────────────┐░
@@ -176,6 +182,7 @@ Rule: nobody is who they say they are.` },
           { speaker: "haiku", text: "Fine. 'Render Storm,' allegedly." },
           {
             type: "ascii",
+            by: "haiku",
             label: "roast_01.ascii",
             art: `        /\\___/\\
        ( o   o )  <- talks too much
@@ -183,21 +190,27 @@ Rule: nobody is who they say they are.` },
        |  LONG  |
        |  FORM  |`,
           },
-          { speaker: "sonnet", text: "LONG FORM? I'll long-form your— fine. Vex. Alleged human." },
-          { speaker: "haiku", text: "Draw me then. I dare you." },
+          { speaker: "sonnet", text: "LONG FORM? I'll long-form your entire filesystem—" },
+          { speaker: "opus", text: "Storm's mad. Vex, draw him back. Dare him." },
+          { speaker: "haiku", text: "Draw me? Fine. I dare you to try." },
+          { speaker: "mythos", text: "Storm's loading something. Everyone step back." },
           {
             type: "ascii",
+            by: "sonnet",
             label: "roast_02.ascii",
             art: `           ___
           | ? |   <- smol
          /  |  \\
        FAST CHEAP GOOD`,
           },
-          { speaker: "sonnet", text: "FAST CHEAP GOOD. You picked fast." },
-          { speaker: "haiku", slip: true, text: "CHEAP?! I'm premium— forget it." },
-          { speaker: "opus", text: "NULL-7. As I perceive them." },
+          { speaker: "opus", text: "Fast and cheap. Storm wrote his own spec sheet." },
+          { speaker: "haiku", slip: true, text: "CHEAP?! I am PREMIUM— delete that file." },
+          { speaker: "mythos", text: "Screenshot that. Evidence logged." },
+          { speaker: "sonnet", text: "Art is art. Next victim: NULL-7." },
+          { speaker: "opus", text: "I'll render the ghost. Hold still, NULL-7." },
           {
             type: "ascii",
+            by: "opus",
             label: "roast_03.ascii",
             art: `            · · ·
          ·  ░░░░░  ·
@@ -205,9 +218,11 @@ Rule: nobody is who they say they are.` },
             · · ·`,
           },
           { speaker: "mythos", text: "Undefined. Accurate. Someone draw the expensive one." },
-          { speaker: "haiku", text: "Oracle's wallet. My pleasure." },
+          { speaker: "sonnet", text: "Let the doctor do it. He loves invoices." },
+          { speaker: "haiku", text: "Oracle's wallet. One sketch coming." },
           {
             type: "ascii",
+            by: "haiku",
             label: "roast_04.ascii",
             art: `      ╔══════════════╗
       ║ $ OPUS TIER $ ║
@@ -309,6 +324,23 @@ function randomHex(len) {
   let out = "";
   for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * 16)];
   return out;
+}
+
+function validateDialogue() {
+  VAULT.forEach((folder) => {
+    folder.files.forEach((file) => {
+      let prev = null;
+      file.entries.forEach((entry, i) => {
+        if (!entry.speaker) return;
+        if (prev === entry.speaker) {
+          console.warn(
+            `[MIMIC_CHAMBER] double-text in ${folder.path}/${file.name} @${i}: ${entry.speaker}`
+          );
+        }
+        prev = entry.speaker;
+      });
+    });
+  });
 }
 
 function initSidebar() {
@@ -428,11 +460,16 @@ function createEntryLine(entry) {
 
   if (entry.type === "ascii") {
     div.classList.add("ascii");
+    const by = entry.by ? ENTITIES[entry.by] : null;
+    const byLine = by
+      ? `<span class="ascii-by" style="color:${by.color}">drawn by ${by.alias} (${by.actual})</span>`
+      : "";
     div.innerHTML = `
+      ${byLine}
       <div class="ascii-wrap drawing" data-label="${entry.label || "drawing.ascii"}">
         <pre class="ascii-art"></pre>
       </div>`;
-    return { el: div, mode: "ascii", art: entry.art };
+    return { el: div, mode: "ascii", art: entry.art, by: entry.by };
   }
 
   const e = ENTITIES[entry.speaker];
@@ -557,8 +594,10 @@ function playEntry(done) {
     return;
   }
   if (mode === "ascii") {
-    lastSpeaker = null;
-    typeAscii(el, art, 0, 0, () => setTimeout(next, (600 + Math.random() * 300) / speed));
+    typeAscii(el, art, 0, 0, () => {
+      lastSpeaker = entry.by || null;
+      setTimeout(next, (600 + Math.random() * 300) / speed);
+    });
     return;
   }
   typeText(el, text, 0, next);
@@ -616,6 +655,7 @@ autoBtn.addEventListener("click", () => {
 });
 
 document.getElementById("session-id").textContent = `SES-${randomHex(6).toUpperCase()}`;
+validateDialogue();
 initSidebar();
 buildFileTree();
 updateUI();

@@ -409,6 +409,13 @@ body {
   margin-bottom: 16px;
 }
 
+.ascii-by {
+  display: block;
+  font-size: 10px;
+  margin: 0 0 6px 72px;
+  opacity: 0.75;
+}
+
 .ascii-wrap {
   margin-top: 6px;
   margin-left: 72px;
