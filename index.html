@@ -10,15 +10,21 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
   <div class="bloom-layer" aria-hidden="true"></div>
+  <div class="hex-field" id="hex-field" aria-hidden="true"></div>
+  <div class="scan-sweep" aria-hidden="true"></div>
+  <div class="chromatic" aria-hidden="true"></div>
   <div class="noise"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
-  <div class="shell">
+  <div class="shell" id="shell">
     <header class="topbar">
       <div class="brand">
-        <pre class="logo" aria-hidden="true">
+        <pre class="logo glitch-target" aria-hidden="true">
 ╔╦╗╦╔╦╗╦╔═╗  ╔═╗╦ ╦╔╗ ╔═╗╔═╗╦═╗╔═╗╔╗╔╔═╗╦═╗
 ║║║║ ║ ║║    ║  ╠═╣╠╩╗║╣ ║ ║╠╦╝║╣ ║║║║╣ ╠╦╝
 ╩ ╩╩ ╩ ╩╚═╝  ╚═╝╩ ╩╚═╝╚═╝╚═╝╩╚═╚═╝╝╚╝╚═╝╩╚═

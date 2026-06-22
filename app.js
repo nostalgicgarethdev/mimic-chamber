@@ -583,11 +583,11 @@ function playEntry(done) {
   terminal.scrollTop = terminal.scrollHeight;
 
   if (window.MimicFX) {
-    if (entry.slip) window.MimicFX.pulse(0.85);
-    else if (entry.glitch) window.MimicFX.pulse(0.7);
-    else if (entry.type === "ascii") window.MimicFX.pulse(0.55);
-    else if (entry.speaker) window.MimicFX.pulse(0.28);
-    else if (entry.type === "system") window.MimicFX.pulse(0.15);
+    if (entry.slip) window.MimicFX.pulse(0.95);
+    else if (entry.glitch) window.MimicFX.pulse(0.8);
+    else if (entry.type === "ascii") window.MimicFX.pulse(0.6);
+    else if (entry.speaker) window.MimicFX.pulse(0.3);
+    else if (entry.type === "system") window.MimicFX.pulse(0.18);
   }
 
   const gap = entry.speaker && prevSpeaker === entry.speaker ? 900 : 450;
