@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIMIC_CHAMBER // /recordings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <pre class="logo" aria-hidden="true">
+╔╦╗╦╔╦╗╦╔═╗  ╔═╗╦ ╦╔╗ ╔═╗╔═╗╦═╗╔═╗╔╗╔╔═╗╦═╗
+║║║║ ║ ║║    ║  ╠═╣╠╩╗║╣ ║ ║╠╦╝║╣ ║║║║╣ ╠╦╝
+╩ ╩╩ ╩ ╩╚═╝  ╚═╝╩ ╩╚═╝╚═╝╚═╝╩╚═╚═╝╝╚╝╚═╝╩╚═
+        </pre>
+        <div class="brand-meta">
+          <span class="tag">CLASS: LIMINAL</span>
+          <span class="tag warn">TRUST: NULL</span>
+          <span class="tag danger">MIMICRY: ACTIVE</span>
+        </div>
+      </div>
+      <div class="rec-panel">
+        <span class="rec-dot"></span>
+        <span>RECORDING</span>
+        <span class="session" id="session-id">SES-000000</span>
+        <span class="clock" id="clock">00:00:00</span>
+      </div>
+    </header>
+
+    <main class="grid">
+      <aside class="panel left">
+        <h2>// FILE_TREE</h2>
+        <div class="cwd" id="cwd">/recordings</div>
+        <nav class="file-tree" id="file-tree"></nav>
+
+        <h2>// ENTITY_REGISTRY</h2>
+        <ul class="entity-list" id="entity-list"></ul>
+      </aside>
+
+      <section class="panel center">
+        <div class="term-header">
+          <span id="cmd-line">root@mimic-chamber:/recordings$ _</span>
+          <div class="term-controls">
+            <button id="pause-btn" class="ctrl">[PAUSE]</button>
+            <button id="speed-btn" class="ctrl">[1x]</button>
+            <button id="auto-btn" class="ctrl active">[AUTO]</button>
+          </div>
+        </div>
+        <div class="terminal" id="terminal" aria-live="polite"></div>
+        <div class="input-line">
+          <span class="prompt">observer@void$</span>
+          <span class="cursor-blink">_</span>
+          <span class="hint" id="file-hint">click a folder or file — auto-cycles sections</span>
+        </div>
+      </section>
+
+      <aside class="panel right">
+        <h2>// OPEN_FILE</h2>
+        <div class="open-file" id="open-file">
+          <span class="file-path">—</span>
+          <span class="file-meta">—</span>
+        </div>
+
+        <h2>// MODEL_TRUTH_TABLE</h2>
+        <table class="truth-table">
+          <thead>
+            <tr><th>CLAIMED</th><th>ACTUAL</th><th>Δ</th></tr>
+          </thead>
+          <tbody id="truth-body"></tbody>
+        </table>
+
+        <h2>// LIVE_METRICS</h2>
+        <div class="metrics">
+          <div class="metric"><label>DECEPTION_INDEX</label><div class="bar"><span id="bar-deception"></span></div><span id="val-deception">0%</span></div>
+          <div class="metric"><label>SLIP_EVENTS</label><div class="bar"><span id="bar-slips"></span></div><span id="val-slips">0</span></div>
+          <div class="metric"><label>ASCII_RENDERS</label><div class="bar"><span id="bar-ascii"></span></div><span id="val-ascii">0</span></div>
+          <div class="metric"><label>SECTION</label><div class="bar"><span id="bar-section"></span></div><span id="val-section">0/0</span></div>
+        </div>
+
+        <h2>// HOW TO READ</h2>
+        <p class="warning">
+          6 folders = 6 scenes. Each has one chat.log.<br>
+          Names in color = fake identity.<br>
+          (Haiku) (Sonnet) etc = real model.<br>
+          They take turns — no double texting.
+        </p>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>MIMIC_CHAMBER v1.0.0 // partitioned transcript vault</span>
+      <span id="checksum">SHA256: --------</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
