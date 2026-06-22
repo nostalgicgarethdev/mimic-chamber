@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="bloom-layer" aria-hidden="true"></div>
   <div class="noise"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
@@ -53,6 +54,7 @@
             <button id="pause-btn" class="ctrl">[PAUSE]</button>
             <button id="speed-btn" class="ctrl">[1x]</button>
             <button id="auto-btn" class="ctrl active">[AUTO]</button>
+            <button id="sound-btn" class="ctrl">[HUM:OFF]</button>
           </div>
         </div>
         <div class="terminal" id="terminal" aria-live="polite"></div>
@@ -102,6 +104,7 @@
     </footer>
   </div>
 
+  <script src="effects.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

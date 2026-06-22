@@ -582,6 +582,14 @@ function playEntry(done) {
   terminal.appendChild(el);
   terminal.scrollTop = terminal.scrollHeight;
 
+  if (window.MimicFX) {
+    if (entry.slip) window.MimicFX.pulse(0.85);
+    else if (entry.glitch) window.MimicFX.pulse(0.7);
+    else if (entry.type === "ascii") window.MimicFX.pulse(0.55);
+    else if (entry.speaker) window.MimicFX.pulse(0.28);
+    else if (entry.type === "system") window.MimicFX.pulse(0.15);
+  }
+
   const gap = entry.speaker && prevSpeaker === entry.speaker ? 900 : 450;
 
   const next = () => {
